@@ -14,6 +14,10 @@
         {
             "src": "/api/books",
             "dest": "/api/books.js"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/public/$1"
         }
     ]
 }

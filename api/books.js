@@ -1,4 +1,3 @@
-import { faker } from '@faker-js/faker';
 import seedrandom from 'seedrandom';
 
 export default async function handler(req, res) {
@@ -23,19 +22,16 @@ export default async function handler(req, res) {
 }
 
 function generateBooks(page, region, seed, likes, reviews) {
-    // Use the Faker constructor to set the locale
-    const localizedFaker = new faker.Faker({
-        locale: [region], // Ensure this matches a valid locale (e.g., 'en', 'fr', 'de')
-    });
-
-    const rng = seedrandom(`${seed}-${page}`); // Combine seed and page number
+    // Initialize seeded random number generator
+    const rng = seedrandom(`${seed}-${page}`);
     const books = [];
 
+    // Generate 10 books per page
     for (let i = 0; i < 10; i++) {
-        const title = localizedFaker.word.words(3);
-        const author = localizedFaker.person.fullName();
-        const publisher = localizedFaker.company.name();
-        const isbn = localizedFaker.string.alphanumeric(13);
+        const title = generateRandomWords(rng, 3);
+        const author = generateRandomName(rng);
+        const publisher = generateRandomPublisher(rng);
+        const isbn = generateRandomISBN(rng);
 
         // Generate fractional likes and reviews
         const actualLikes = Math.round(rng() * likes);
@@ -50,11 +46,49 @@ function generateBooks(page, region, seed, likes, reviews) {
             reviews: actualReviews,
             details: {
                 coverImage: `https://picsum.photos/150/200?random=${isbn}`,
-                reviewTexts: Array(actualReviews).fill(null).map(() => localizedFaker.lorem.sentence()),
-                reviewAuthors: Array(actualReviews).fill(null).map(() => localizedFaker.person.fullName()),
+                reviewTexts: Array(actualReviews).fill(null).map(() => generateRandomSentence(rng)),
+                reviewAuthors: Array(actualReviews).fill(null).map(() => generateRandomName(rng)),
             },
         });
     }
 
     return books;
+}
+
+// Helper Functions for Generating Fake Data
+function generateRandomWords(rng, count) {
+    const words = ['Book', 'Story', 'Tale', 'Adventure', 'Journey', 'Mystery', 'Chronicle', 'Saga'];
+    return Array(count)
+        .fill(null)
+        .map(() => words[Math.floor(rng() * words.length)])
+        .join(' ');
+}
+
+function generateRandomName(rng) {
+    const firstNames = ['Alice', 'Bob', 'Charlie', 'Diana', 'Eve', 'Frank', 'Grace', 'Hannah'];
+    const lastNames = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis'];
+    return `${firstNames[Math.floor(rng() * firstNames.length)]} ${lastNames[Math.floor(rng() * lastNames.length)]}`;
+}
+
+function generateRandomPublisher(rng) {
+    const publishers = ['Penguin', 'HarperCollins', 'Simon & Schuster', 'Random House', 'Macmillan'];
+    return publishers[Math.floor(rng() * publishers.length)];
+}
+
+function generateRandomISBN(rng) {
+    return Array(13)
+        .fill(null)
+        .map(() => Math.floor(rng() * 10))
+        .join('');
+}
+
+function generateRandomSentence(rng) {
+    const sentences = [
+        'A thrilling journey through time.',
+        'An unforgettable tale of love and loss.',
+        'Discover the secrets of the universe.',
+        'A gripping story of survival and hope.',
+        'Explore the mysteries of the human heart.',
+    ];
+    return sentences[Math.floor(rng() * sentences.length)];
 }

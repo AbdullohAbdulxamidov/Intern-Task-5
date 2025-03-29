@@ -24,7 +24,10 @@ export default async function handler(req, res) {
 
 function generateBooks(page, region, seed, likes, reviews) {
     // Use the Faker constructor to set the locale
-    const localizedFaker = new faker.Faker({ locale: [region] });
+    const localizedFaker = new faker.Faker({
+        locale: [region], // Ensure this matches a valid locale (e.g., 'en', 'fr', 'de')
+    });
+
     const rng = seedrandom(`${seed}-${page}`); // Combine seed and page number
     const books = [];
 

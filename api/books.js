@@ -2,7 +2,16 @@ import { faker } from '@faker-js/faker';
 import seedrandom from 'seedrandom';
 
 export default async function handler(req, res) {
-    const { page, region, seed, likes, reviews } = req.query;
+    // Set CORS headers to allow requests from any origin
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+    }
+
+    const { page = 1, region = 'en', seed = 'random', likes = 5, reviews = 4.7 } = req.query;
 
     try {
         const books = generateBooks(page, region, seed, likes, reviews);
@@ -14,15 +23,16 @@ export default async function handler(req, res) {
 }
 
 function generateBooks(page, region, seed, likes, reviews) {
-    faker.locale = region.split('-')[0]; // Set locale based on region
+    // Use the Faker constructor to set the locale
+    const localizedFaker = new faker.Faker({ locale: [region] });
     const rng = seedrandom(`${seed}-${page}`); // Combine seed and page number
     const books = [];
 
     for (let i = 0; i < 10; i++) {
-        const title = faker.word.words(3);
-        const author = faker.person.fullName();
-        const publisher = faker.company.name();
-        const isbn = faker.string.alphanumeric(13);
+        const title = localizedFaker.word.words(3);
+        const author = localizedFaker.person.fullName();
+        const publisher = localizedFaker.company.name();
+        const isbn = localizedFaker.string.alphanumeric(13);
 
         // Generate fractional likes and reviews
         const actualLikes = Math.round(rng() * likes);
@@ -37,8 +47,8 @@ function generateBooks(page, region, seed, likes, reviews) {
             reviews: actualReviews,
             details: {
                 coverImage: `https://picsum.photos/150/200?random=${isbn}`,
-                reviewTexts: Array(actualReviews).fill(null).map(() => faker.lorem.sentence()),
-                reviewAuthors: Array(actualReviews).fill(null).map(() => faker.person.fullName()),
+                reviewTexts: Array(actualReviews).fill(null).map(() => localizedFaker.lorem.sentence()),
+                reviewAuthors: Array(actualReviews).fill(null).map(() => localizedFaker.person.fullName()),
             },
         });
     }

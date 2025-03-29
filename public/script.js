@@ -42,11 +42,15 @@ async function fetchData() {
         }
         const data = await response.json();
 
-        console.log('Fetched Data:', data);
+        console.log('Fetched Data:', data); // Log the fetched data
 
-        currentData = [...currentData, ...data];
-        renderTable(currentData);
-        currentPage++;
+        if (Array.isArray(data)) {
+            currentData = [...currentData, ...data];
+            renderTable(currentData);
+            currentPage++;
+        } else {
+            console.error('Invalid data format:', data);
+        }
     } catch (error) {
         console.error('Error fetching data:', error);
     } finally {
@@ -56,6 +60,11 @@ async function fetchData() {
 
 function renderTable(data) {
     const table = document.getElementById('bookTable');
+    if (!Array.isArray(data) || data.length === 0) {
+        table.innerHTML = '<p>No data available.</p>';
+        return;
+    }
+
     table.innerHTML = `
     <table>
       <tr>
@@ -91,6 +100,11 @@ function toggleView() {
 
 function renderGallery(data) {
     const table = document.getElementById('bookTable');
+    if (!Array.isArray(data) || data.length === 0) {
+        table.innerHTML = '<p>No data available.</p>';
+        return;
+    }
+
     table.innerHTML = data.map(book => `
     <div class="book-card">
       <img src="${book.details.coverImage}" alt="${book.title}">
@@ -124,4 +138,4 @@ function resetAndFetchData() {
     fetchData();
 }
 
-fetchData();
+fetchData(); // Initial data fetch

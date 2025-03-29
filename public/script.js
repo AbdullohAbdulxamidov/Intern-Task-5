@@ -67,24 +67,22 @@ function renderTable(data) {
 
     table.innerHTML = `
     <table>
-      <tr>
-        <th>Index</th>
-        <th>ISBN</th>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Publisher</th>
-      </tr>
-      ${data.map((book, index) => `
         <tr>
-          <td>${index + 1}</td>
-          <td>${book.isbn}</td>
-          <td>${book.title}</td>
-          <td>${book.author}</td>
-          <td>${book.publisher}</td>
+            <th>Index</th>
+            <th>ISBN</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Publisher</th>
         </tr>
-      `).join('')}
-    </table>
-  `;
+        ${data.map((book, index) => `
+        <tr>
+            <td>${index + 1}</td>
+            <td>${book.isbn}</td>
+            <td>${book.title}</td>
+            <td>${book.author}</td>
+            <td>${book.publisher}</td>
+        </tr> `).join('')}
+    </table>`;
 }
 
 function toggleView() {
@@ -107,10 +105,10 @@ function renderGallery(data) {
 
     table.innerHTML = data.map(book => `
     <div class="book-card">
-      <img src="${book.details.coverImage}" alt="${book.title}">
-      <h3>${book.title}</h3>
-      <p><strong>Author:</strong> ${book.author}</p>
-      <p><strong>Publisher:</strong> ${book.publisher}</p>
+        <img src="${book.details.coverImage}" alt="${book.title}">
+        <h3>${book.title}</h3>
+        <p><strong>Author:</strong> ${book.author}</p>
+        <p><strong>Publisher:</strong> ${book.publisher}</p>
     </div>
   `).join('');
 }

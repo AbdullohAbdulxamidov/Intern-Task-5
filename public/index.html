@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Store Tester</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="app">
+        <h1>📚 Book Store Tester</h1>
+        <div class="controls">
+            <label>
+                Language/Region:
+                <select id="region">
+                    <option value="en-US">English (USA)</option>
+                    <option value="fr-FR">French (France)</option>
+                    <option value="de-DE">German (Germany)</option>
+                </select>
+            </label>
+            <label>
+                Seed:
+                <input type="text" id="seed" placeholder="Random Seed" />
+                <button id="randomSeed">🔀 Random</button>
+            </label>
+            <label>
+                Likes (avg):
+                <input type="range" id="likes" min="0" max="10" step="0.1" value="5" />
+                <span id="likesValue">5.0</span>
+            </label>
+            <label>
+                Reviews (avg):
+                <input type="number" id="reviews" min="0" max="10" step="0.1" value="4.7" />
+            </label>
+            <button id="exportCSV">Export to CSV</button>
+            <button id="toggleView">Toggle Gallery/Table View</button>
+        </div>
+        <div id="bookTable" class="table-view"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

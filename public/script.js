@@ -3,7 +3,7 @@ let currentData = [];
 let isFetching = false;
 
 // Backend URL (relative path since backend is hosted on the same Vercel app)
-const backendUrl = "/api/books"; // Relative path to the serverless function
+const backendUrl = "/api/books";
 
 document.getElementById('likes').addEventListener('input', (e) => {
     document.getElementById('likesValue').textContent = e.target.value;

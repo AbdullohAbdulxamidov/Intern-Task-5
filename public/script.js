@@ -13,7 +13,7 @@ async function fetchData() {
     isFetching = true;
 
     const region = document.getElementById('region').value;
-    const seed = document.getElementById('seed').value || 'random';
+    const seed = document.getElementById('seed').value || 'default';
     const likes = document.getElementById('likes').value;
     const reviews = document.getElementById('reviews').value;
 

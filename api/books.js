@@ -10,7 +10,7 @@ export default async function handler(req, res) {
         return res.status(200).end();
     }
 
-    const { page = 1, region = 'en', seed = 'random', likes = 5, reviews = 4.7 } = req.query;
+    const { page = 1, region = 'en-US', seed = 'default', likes = 5, reviews = 4.7 } = req.query;
 
     try {
         const books = generateBooks(page, region, seed, likes, reviews);
@@ -55,7 +55,7 @@ function generateBooks(page, region, seed, likes, reviews) {
     return books;
 }
 
-// Helper Functions for Generating Fake Data
+// Helper Functions for Generating Random Data
 function generateRandomWords(rng, count) {
     const words = ['Book', 'Story', 'Tale', 'Adventure', 'Journey', 'Mystery', 'Chronicle', 'Saga'];
     return Array(count)

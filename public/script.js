@@ -2,6 +2,9 @@ let currentPage = 1;
 let currentData = [];
 let isFetching = false;
 
+// Backend URL (relative path since backend is hosted on the same Vercel app)
+const backendUrl = "/api/books"; // Relative path to the serverless function
+
 document.getElementById('likes').addEventListener('input', (e) => {
     document.getElementById('likesValue').textContent = e.target.value;
     resetAndFetchData();
@@ -30,7 +33,7 @@ async function fetchData() {
     const reviews = document.getElementById('reviews').value;
 
     try {
-        const url = `http://localhost:5500/api/books?page=${currentPage}&region=${region}&seed=${seed}&likes=${likes}&reviews=${reviews}`;
+        const url = `${backendUrl}?page=${currentPage}&region=${region}&seed=${seed}&likes=${likes}&reviews=${reviews}`;
         console.log('Fetching URL:', url);
 
         const response = await fetch(url);

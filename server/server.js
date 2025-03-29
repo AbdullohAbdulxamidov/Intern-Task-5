@@ -3,7 +3,7 @@ import cors from 'cors';
 import { generateBooks } from './dataGenerator.js';
 
 const app = express();
-const PORT = 5500;
+const PORT = process.env.PORT || 5500; // Use environment variable for port
 
 app.use(cors());
 app.use(express.static('public'));

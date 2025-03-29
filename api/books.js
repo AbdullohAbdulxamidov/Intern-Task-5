@@ -28,9 +28,9 @@ function generateBooks(page, region, seed, likes, reviews) {
 
     // Generate 10 books per page
     for (let i = 0; i < 10; i++) {
-        const title = generateRandomWords(rng, 3);
-        const author = generateRandomName(rng);
-        const publisher = generateRandomPublisher(rng);
+        const title = generateRandomTitle(rng, region);
+        const author = generateRandomAuthor(rng, region);
+        const publisher = generateRandomPublisher(rng, region);
         const isbn = generateRandomISBN(rng);
 
         // Generate fractional likes and reviews
@@ -46,8 +46,8 @@ function generateBooks(page, region, seed, likes, reviews) {
             reviews: actualReviews,
             details: {
                 coverImage: `https://picsum.photos/150/200?random=${isbn}`,
-                reviewTexts: Array(actualReviews).fill(null).map(() => generateRandomSentence(rng)),
-                reviewAuthors: Array(actualReviews).fill(null).map(() => generateRandomName(rng)),
+                reviewTexts: Array(actualReviews).fill(null).map(() => generateRandomReviewText(rng, region)),
+                reviewAuthors: Array(actualReviews).fill(null).map(() => generateRandomAuthor(rng, region)),
             },
         });
     }
@@ -56,23 +56,37 @@ function generateBooks(page, region, seed, likes, reviews) {
 }
 
 // Helper Functions for Generating Random Data
-function generateRandomWords(rng, count) {
-    const words = ['Book', 'Story', 'Tale', 'Adventure', 'Journey', 'Mystery', 'Chronicle', 'Saga'];
-    return Array(count)
-        .fill(null)
-        .map(() => words[Math.floor(rng() * words.length)])
-        .join(' ');
+function generateRandomTitle(rng, region) {
+    const titles = {
+        'en-US': ['The Great Adventure', 'Mystery of the Forest', 'Journey to the Stars'],
+        'de-DE': ['Das große Abenteuer', 'Das Geheimnis des Waldes', 'Reise zu den Sternen'],
+        'fr-FR': ['Le grand voyage', 'Le mystère de la forêt', 'Voyage vers les étoiles'],
+    };
+
+    const regionTitles = titles[region] || titles['en-US'];
+    return regionTitles[Math.floor(rng() * regionTitles.length)];
 }
 
-function generateRandomName(rng) {
-    const firstNames = ['Alice', 'Bob', 'Charlie', 'Diana', 'Eve', 'Frank', 'Grace', 'Hannah'];
-    const lastNames = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis'];
-    return `${firstNames[Math.floor(rng() * firstNames.length)]} ${lastNames[Math.floor(rng() * lastNames.length)]}`;
+function generateRandomAuthor(rng, region) {
+    const authors = {
+        'en-US': ['John Doe', 'Jane Smith', 'Alice Johnson'],
+        'de-DE': ['Max Mustermann', 'Anna Schmidt', 'Hans Müller'],
+        'fr-FR': ['Jean Dupont', 'Marie Martin', 'Pierre Dubois'],
+    };
+
+    const regionAuthors = authors[region] || authors['en-US'];
+    return regionAuthors[Math.floor(rng() * regionAuthors.length)];
 }
 
-function generateRandomPublisher(rng) {
-    const publishers = ['Penguin', 'HarperCollins', 'Simon & Schuster', 'Random House', 'Macmillan'];
-    return publishers[Math.floor(rng() * publishers.length)];
+function generateRandomPublisher(rng, region) {
+    const publishers = {
+        'en-US': ['Penguin Books', 'HarperCollins', 'Simon & Schuster'],
+        'de-DE': ['Fischer Verlag', 'Heyne Verlag', 'Klett-Cotta'],
+        'fr-FR': ['Éditions Gallimard', 'Hachette Livre', 'Flammarion'],
+    };
+
+    const regionPublishers = publishers[region] || publishers['en-US'];
+    return regionPublishers[Math.floor(rng() * regionPublishers.length)];
 }
 
 function generateRandomISBN(rng) {
@@ -82,13 +96,13 @@ function generateRandomISBN(rng) {
         .join('');
 }
 
-function generateRandomSentence(rng) {
-    const sentences = [
-        'A thrilling journey through time.',
-        'An unforgettable tale of love and loss.',
-        'Discover the secrets of the universe.',
-        'A gripping story of survival and hope.',
-        'Explore the mysteries of the human heart.',
-    ];
-    return sentences[Math.floor(rng() * sentences.length)];
+function generateRandomReviewText(rng, region) {
+    const reviews = {
+        'en-US': ['A thrilling journey through time.', 'An unforgettable tale of love and loss.'],
+        'de-DE': ['Eine spannende Reise durch die Zeit.', 'Eine unvergessliche Geschichte von Liebe und Verlust.'],
+        'fr-FR': ['Un voyage passionnant à travers le temps.', 'Une histoire inoubliable d\'amour et de perte.'],
+    };
+
+    const regionReviews = reviews[region] || reviews['en-US'];
+    return regionReviews[Math.floor(rng() * regionReviews.length)];
 }

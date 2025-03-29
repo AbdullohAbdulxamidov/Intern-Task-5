@@ -32,17 +32,3 @@ body {
     padding: 8px;
     text-align: left;
 }
-
-.gallery-card {
-    display: inline-block;
-    width: 200px;
-    margin: 10px;
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: center;
-}
-
-.gallery-card img {
-    max-width: 100%;
-    height: auto;
-}
